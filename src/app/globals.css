@@ -16,6 +16,43 @@
   }
 }
 
+@layer base {
+  @font-face {
+    font-family: graphik-black;
+    src: url('/fonts/Graphik-Black-Web.ttf');
+  }
+  
+  @font-face {
+    font-family: graphik-reg;
+    src: url('/fonts/Graphik-Regular-Web.ttf');
+  }
+  
+  @font-face {
+    font-family: graphik-med;
+    src: url('/fonts/Graphik-Medium.ttf');
+  }
+  
+  @font-face {
+    font-family: graphik-bold;
+    src: url('/fonts/Graphik-Bold-Web.ttf');
+  }
+  
+  @font-face {
+    font-family: graphik-sup;
+    src: url('/fonts/Graphik-Super-Web.ttf');
+  }
+  
+  @font-face {
+    font-family: graphik-semibold;
+    src: url('/fonts/Graphik-Semibold-Web.ttf');
+  }
+  
+  @font-face {
+    font-family: graphik-light;
+    src: url('/fonts/Graphik-Light.ttf');
+  }
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
@@ -24,6 +61,7 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  font-family: graphik-med, Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
