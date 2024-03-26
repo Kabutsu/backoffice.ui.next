@@ -1,4 +1,4 @@
-import SideBar from '~/_components/sidebar';
+import SideBar from '~/app/_components/sidebar';
 
 export default function PageLayout({
   children,
