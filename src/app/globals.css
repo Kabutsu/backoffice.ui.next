@@ -69,3 +69,23 @@ body {
     text-wrap: balance;
   }
 }
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(237, 50, 147, 0.9);
+  border-radius: 14px;
+  transition: ease-in-out 0.2s;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(237, 50, 147);
+  transition: ease-in-out 0.2s;
+}

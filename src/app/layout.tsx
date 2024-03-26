@@ -22,7 +22,7 @@ export default function RootLayout({
         <div className="absolute top-0 bottom-0 right-0 left-0 flex flex-col">
           <Header />
 
-          <main className="flex h-full">
+          <main className="flex flex-grow h-auto overflow-hidden">
             {children}
           </main>
         </div>
