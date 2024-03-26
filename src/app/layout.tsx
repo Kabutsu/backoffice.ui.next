@@ -18,11 +18,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div>
+      <body className={`${inter.className} relative h-dvh`}>
+        <div className="absolute top-0 bottom-0 right-0 left-0 flex flex-col">
           <Header />
 
-          <main>
+          <main className="flex h-full">
             {children}
           </main>
         </div>

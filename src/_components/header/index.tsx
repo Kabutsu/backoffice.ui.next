@@ -2,7 +2,7 @@ import Logo from './logo';
 import NavLink from './nav-link';
 
 const AppHeader: React.FC = () => {
-  const navLinks = ['Sample', 'Tools'].map((title) => (
+  const navLinks = ['sample', 'tools'].map((title) => (
     <NavLink key={title} href={`/${title}`} title={title} />
   ));
 
