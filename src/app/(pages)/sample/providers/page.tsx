@@ -11,7 +11,7 @@ export type Supplier = {
   name: string;
 };
 
-export default function Providers() {
+export default async function Providers() {
   return (
     <>
       <H1>Sample Providers</H1>

@@ -6,6 +6,7 @@ import Table, { Column } from '~/app/(pages)/_components/table';
 
 import { Sample } from '../page';
 import RenderCell from './render-cell';
+
 import { getSamples } from '../_actions';
 
 const columns: Array<Column<Sample>> = [{
@@ -41,8 +42,8 @@ export default function CustomSampleTable() {
   const [samples, setSamples] = useState<Array<Sample>>([]);
 
   const loadSamples = async () => {
-    const data = await getSamples(currentPage * PAGE_SIZE, PAGE_SIZE);
-    setSamples(data);
+    const { samples: data } = await getSamples(currentPage * PAGE_SIZE, PAGE_SIZE);
+    setSamples(data.items);
   };
 
   useEffect(() => {

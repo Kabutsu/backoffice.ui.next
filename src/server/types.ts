@@ -16,9 +16,15 @@ type ApolloResponse<T extends string, U> = {
   [key in T]: U;
 };
 
+type PaginatedApolloResponse<T extends string, U> = ApolloResponse<T, {
+  totalCount: number;
+  items: U;
+}>;
+
 export type {
   GraphQLResponse,
   ApiResponse,
   PaginatedApiResponse,
   ApolloResponse,
+  PaginatedApolloResponse
 };

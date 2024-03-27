@@ -1,10 +1,10 @@
 import { gql } from "@apollo/client";
 
-import { ApolloResponse } from "~/server/types";
+import { PaginatedApolloResponse } from "~/server/types";
 
 import { Sample } from "../page";
 
-export type Samples = ApolloResponse<"samples", Array<Sample>>;
+export type Samples = PaginatedApolloResponse<"samples", Array<Sample>>;
 
 export default gql`
   query PaginatedCustomSamples(

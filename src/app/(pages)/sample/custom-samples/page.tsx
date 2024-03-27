@@ -17,7 +17,7 @@ export type Sample = {
   author: string;
 };
 
-export default function CustomSamples() {
+export default async function CustomSamples() {
   return (
     <>
       <H1>Custom Samples</H1>
