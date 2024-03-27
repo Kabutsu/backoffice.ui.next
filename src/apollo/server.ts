@@ -1,4 +1,6 @@
-import { ApolloClient, HttpLink, InMemoryCache, createHttpLink } from "@apollo/client";
+import "server-only";
+
+import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { registerApolloClient } from "@apollo/experimental-nextjs-app-support/rsc";
 import { getServerAuthSession } from "~/server/auth";

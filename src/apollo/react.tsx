@@ -2,8 +2,9 @@
 
 import {
   ApolloLink,
-  HttpLink,
+  createHttpLink,
 } from "@apollo/client";
+import { setContext } from '@apollo/client/link/context';
 import {
   NextSSRApolloClient,
   NextSSRInMemoryCache,
@@ -11,10 +12,27 @@ import {
   ApolloNextAppProvider
 } from "@apollo/experimental-nextjs-app-support/ssr";
 
+import { getServerAuthSession } from '~/server/auth';
+
 function makeClient() {
-  const httpLink = new HttpLink({
+  const httpLink = createHttpLink({
     uri: process.env.BFF_API_URL,
   });
+  
+  const authLink = setContext(async (_, { headers }) => {
+    const session = await getServerAuthSession();
+  
+    if (session && session.accessToken) {
+      return {
+        headers: {
+          ...headers,
+          Authorization: `Bearer ${session.accessToken}`,
+        },
+      };
+    }
+  });
+
+  const link = authLink.concat(httpLink);
 
   return new NextSSRApolloClient({
     cache: new NextSSRInMemoryCache(),
@@ -24,9 +42,9 @@ function makeClient() {
             new SSRMultipartLink({
               stripDefer: true,
             }),
-            httpLink,
+            link,
           ])
-        : httpLink,
+        : link,
   });
 }
 
