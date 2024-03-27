@@ -8,6 +8,7 @@ import { Sample } from '../page';
 import RenderCell from './render-cell';
 
 import { getSamples } from '../_actions';
+import Loader from '~/app/_components/loader';
 
 const columns: Array<Column<Sample>> = [{
   key: 'id',
@@ -39,16 +40,23 @@ const PAGE_SIZE = 10;
 
 export default function CustomSampleTable() {
   const [currentPage] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const [samples, setSamples] = useState<Array<Sample>>([]);
 
   const loadSamples = async () => {
-    const { samples: data } = await getSamples(currentPage * PAGE_SIZE, PAGE_SIZE);
-    setSamples(data.items);
+    const samples = await getSamples(currentPage * PAGE_SIZE, PAGE_SIZE);
+    setSamples(samples.items);
+    setIsLoading(false);
   };
 
   useEffect(() => {
+    setIsLoading(true);
     void loadSamples();
   }, [currentPage]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <Table

@@ -10,5 +10,5 @@ export async function getSamples(skip: number, take: number) {
     variables: { skip, take }
   });
 
-  return { loading, error, samples };
+  return samples;
 };
