@@ -1,4 +1,4 @@
-import { Supplier } from './page';
+import { Supplier } from '../page';
 
 export default function RenderCell(row: Supplier, key: keyof Supplier) {
   return (
