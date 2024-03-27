@@ -1,4 +1,4 @@
-import { ApiResponse } from '~/server/types';
+import { ApolloResponse } from '~/server/types';
 
 import { getClient } from '~/apollo/server';
 import { gql } from '@apollo/client';
@@ -18,7 +18,7 @@ import { Supplier } from '../page';
 import RenderCell from './render-cell';
 
 export default async function ProvidersTable() {
-  const { data: { data: { supplier } } } = await getClient().query<ApiResponse<'supplier', Array<Supplier>>>({ query });
+  const { data: { supplier } } = await getClient().query<ApolloResponse<'supplier', Array<Supplier>>>({ query });
 
   const columns: Array<Column<Supplier>> = [{
     key: 'id',

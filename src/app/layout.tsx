@@ -1,8 +1,11 @@
+import { Suspense } from 'react';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
 
 import Header from "~/app/_components/header";
+import Loader from '~/app/_components/loader';
+
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +26,9 @@ export default function RootLayout({
           <Header />
 
           <main className="flex flex-grow h-auto overflow-hidden">
-            {children}
+            <Suspense fallback={<Loader />}>
+              {children}
+            </Suspense>
           </main>
         </div>
       </body>
