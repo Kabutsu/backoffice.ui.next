@@ -1,5 +1,16 @@
-import { getServerAuthSession } from '~/server/auth';
 import { ApiResponse } from '~/server/types';
+
+import { getClient } from '~/apollo/server';
+import { gql } from '@apollo/client';
+
+const query = gql`
+  query FetchAllSuppliers {
+    supplier {
+      id
+      name
+    }
+  }
+`;
 
 import Table, { Column } from '~/app/(pages)/_components/table';
 
@@ -7,56 +18,7 @@ import { Supplier } from '../page';
 import RenderCell from './render-cell';
 
 export default async function ProvidersTable() {
-  const session = await getServerAuthSession();
-
-  if (!session) {
-    throw new Error('You need to be authenticated to view this page');
-  }
-
-  async function getProviders() {
-    const body = {
-      query: `
-        query FetchAllSuppliers {
-          supplier {
-            id
-            name
-          }
-        }
-      `
-    };
-    
-    if (!session?.accessToken) {
-      throw new Error('No accessToken found in session');
-    }
-
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${session?.accessToken}`,
-    };
-    const requestObj = {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(body),
-    };
-
-    const response = await fetch(process.env.BFF_API_URL as string, requestObj);
-
-    if (response.status >= 400) {
-      console.error('Failed to fetch data', response.statusText);
-      throw new Error('Failed to fetch data', { cause: response.statusText });
-    }
-
-    let data = (await response.json()) as ApiResponse<'supplier', Array<Supplier>>;
-
-    if (data.errors) {
-      console.error('Error within data', data.errors);
-      throw new Error('Error within data', { cause: data.errors });
-    }
-
-    return data.data.supplier;
-  };
-
-  const data = await getProviders();
+  const { data: { data: { supplier } } } = await getClient().query<ApiResponse<'supplier', Array<Supplier>>>({ query });
 
   const columns: Array<Column<Supplier>> = [{
     key: 'id',
@@ -68,7 +30,7 @@ export default async function ProvidersTable() {
 
   return (
     <Table
-      data={data}
+      data={supplier}
       columns={columns}
       renderCell={RenderCell}
     />

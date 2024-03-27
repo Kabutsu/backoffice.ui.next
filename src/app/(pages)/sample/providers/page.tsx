@@ -3,6 +3,8 @@ import { Suspense } from 'react';
 import Loader from '~/app/_components/loader';
 import ProvidersTable from './_components/providers-table';
 
+export const revalidate = 5;
+
 export type Supplier = {
   id: number;
   name: string;
