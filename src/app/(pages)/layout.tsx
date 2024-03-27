@@ -12,15 +12,15 @@ export default function PageLayout({
     href: '/sample/providers',
     title: 'Sample Providers'
   }, {
-    href: '/sample/nat-rep-samples',
-    title: 'Nat Rep Samples'
+    href: '/sample/custom-samples',
+    title: 'Custom Samples'
   }];
 
   return (
     <div className="flex flex-row items-start flex-1 overflow-hidden relative">
       <SideBar links={navLinks} />
 
-      <div className="relative flex-1 h-full overflow-y-scroll">
+      <div className="relative flex flex-1 flex-col gap-12 p-10 w-full h-full overflow-y-scroll">
         <Suspense fallback={<Loader />}>
           {children}
         </Suspense>

@@ -1,7 +1,8 @@
 import { Suspense } from 'react';
 
 import Loader from '~/app/_components/loader';
-import ProvidersTable from './_components/providers-table';
+import H1 from '~/app/_components/h1';
+import ProvidersTable from '~/app/(pages)/sample/providers/_components/providers-table';
 
 export const revalidate = 5;
 
@@ -12,11 +13,11 @@ export type Supplier = {
 
 export default function Providers() {
   return (
-    <div className="flex flex-col gap-12 p-10 w-full">
-      <h1 className="text-2xl font-bold">Sample Providers</h1>
+    <>
+      <H1>Sample Providers</H1>
       <Suspense fallback={<Loader />}>
         <ProvidersTable />
       </Suspense>
-    </div>
+    </>
   )
 };
