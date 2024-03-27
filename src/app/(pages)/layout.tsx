@@ -1,4 +1,7 @@
+import { Suspense } from 'react';
+
 import SideBar from '~/app/_components/sidebar';
+import Loader from '~/app/_components/loader';
 
 export default function PageLayout({
   children,
@@ -18,7 +21,9 @@ export default function PageLayout({
       <SideBar links={navLinks} />
 
       <div className="relative flex-1 h-full overflow-y-scroll">
-        {children}
+        <Suspense fallback={<Loader />}>
+          {children}
+        </Suspense>
       </div>
     </div>
   );
