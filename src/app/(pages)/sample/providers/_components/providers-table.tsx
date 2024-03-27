@@ -40,10 +40,17 @@ export default async function ProvidersTable() {
     };
 
     const response = await fetch(process.env.BFF_API_URL as string, requestObj);
-    const data = (await response.json()) as ApiResponse<'supplier', Array<Supplier>>;
+
+    if (response.status >= 400) {
+      console.error('Failed to fetch data', response.statusText);
+      throw new Error('Failed to fetch data', { cause: response.statusText });
+    }
+
+    let data = (await response.json()) as ApiResponse<'supplier', Array<Supplier>>;
 
     if (data.errors) {
-      console.error(data.errors[0].extensions);
+      console.error('Error within data', data.errors);
+      throw new Error('Error within data', { cause: data.errors });
     }
 
     return data.data.supplier;

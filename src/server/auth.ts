@@ -88,8 +88,6 @@ export const authOptions: NextAuthOptions = {
     // Acquire the access token and refresh token
     // Called when a user is authenticated
     async jwt({ token, account }) {
-      console.log("JWT Callback");
-
       // Initial sign in
       if (account) {
         const expiry = Date.now() + (account.ext_expires_in as number * 1000);
