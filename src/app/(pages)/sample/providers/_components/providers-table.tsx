@@ -40,10 +40,14 @@ export default async function ProvidersTable() {
     };
 
     const response = await fetch(process.env.BFF_API_URL as string, requestObj);
-    const data = (await response.json()) as ApiResponse<'supplier', Array<Supplier>>;
+    console.log('Response:', response);
+    let data = (await response.json());
+    console.log('Data:', data);
+    data = data as ApiResponse<'supplier', Array<Supplier>>;
+    console.log('Suppliers:', data.data.supplier);
 
     if (data.errors) {
-      console.error(data.errors[0].extensions);
+      console.error(data.errors);
     }
 
     return data.data.supplier;
