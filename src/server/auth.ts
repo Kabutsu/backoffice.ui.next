@@ -15,15 +15,10 @@ declare module "next-auth" {
   interface Session extends DefaultSession {
     user: {
       id: string;
-      // ...other properties
-      // role: UserRole;
     } & DefaultSession["user"];
+    accessToken: unknown;
+    idToken: unknown;
   }
-
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
 }
 
 /**
@@ -32,13 +27,32 @@ declare module "next-auth" {
  * @see https://next-auth.js.org/configuration/options
  */
 export const authOptions: NextAuthOptions = {
+  session: {
+    strategy: "jwt",
+    // Seconds - How long until an idle session expires and is no longer valid.
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  jwt: {
+    // A secret to use for key generation (you should set this explicitly)
+    secret: process.env.NEXTAUTH_SECRET,
+  },
+
   callbacks: {
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-      },
-    }),
+    async jwt({ token, account }) {
+      // Persist the OAuth access_token to the token right after signin
+      if (account) {
+        token.accessToken = account.access_token;
+        token.idToken = account.id_token;
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      // Send properties to the client, like an access_token from a provider.
+      //console.log(session, token);
+      session.accessToken = token.accessToken;
+      session.idToken = token.idToken;
+      return session;
+    },
   },
   providers: [
     AzureAdProvider({
