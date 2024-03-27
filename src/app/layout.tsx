@@ -6,6 +6,7 @@ import Header from "~/app/_components/header";
 import Loader from '~/app/_components/loader';
 
 import "./globals.css";
+import { ReactQueryProvider } from '~/react-query/provider';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,18 +21,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} relative h-dvh`}>
-        <div className="absolute top-0 bottom-0 right-0 left-0 flex flex-col">
-          <Header />
+    <ReactQueryProvider>
+      <html lang="en">
+        <body className={`${inter.className} relative h-dvh`}>
+          <div className="absolute top-0 bottom-0 right-0 left-0 flex flex-col">
+            <Header />
 
-          <main className="flex flex-grow h-auto overflow-hidden">
-            <Suspense fallback={<Loader />}>
-              {children}
-            </Suspense>
-          </main>
-        </div>
-      </body>
-    </html>
+            <main className="flex flex-grow h-auto overflow-hidden">
+              <Suspense fallback={<Loader />}>
+                {children}
+              </Suspense>
+            </main>
+          </div>
+        </body>
+      </html>
+    </ReactQueryProvider>
   );
 }

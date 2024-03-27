@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Table, { Column } from '~/app/(pages)/_components/table';
 
@@ -9,6 +9,7 @@ import RenderCell from './render-cell';
 
 import { getSamples } from '../_actions';
 import Loader from '~/app/_components/loader';
+import { useQuery } from '@tanstack/react-query';
 
 const columns: Array<Column<Sample>> = [{
   key: 'id',
@@ -40,19 +41,11 @@ const PAGE_SIZE = 10;
 
 export default function CustomSampleTable() {
   const [currentPage] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
-  const [samples, setSamples] = useState<Array<Sample>>([]);
-
-  const loadSamples = async () => {
-    const samples = await getSamples(currentPage * PAGE_SIZE, PAGE_SIZE);
-    setSamples(samples.items);
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    setIsLoading(true);
-    void loadSamples();
-  }, [currentPage]);
+  
+  const { data, isLoading } = useQuery({
+    queryKey: ['samples', currentPage],
+    queryFn: () => getSamples(currentPage * PAGE_SIZE, PAGE_SIZE),
+  });
 
   if (isLoading) {
     return <Loader />;
@@ -60,7 +53,7 @@ export default function CustomSampleTable() {
 
   return (
     <Table
-      data={samples}
+      data={data?.items || []}
       columns={columns}
       renderCell={RenderCell}
     />
