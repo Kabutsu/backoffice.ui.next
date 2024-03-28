@@ -42,10 +42,14 @@ const PAGE_SIZE = 10;
 export default function CustomSampleTable() {
   const [currentPage] = useState(0);
   
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ['samples', currentPage],
     queryFn: () => getSamples(currentPage * PAGE_SIZE, PAGE_SIZE),
   });
+
+  if (isError) {
+    throw new Error('Failed to load samples', { cause: error });
+  }
 
   if (isLoading) {
     return <Loader />;
